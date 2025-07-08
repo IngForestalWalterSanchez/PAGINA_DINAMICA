@@ -1,6 +1,23 @@
 [
-  { "id": 1, "nombre": "Corrientes Capital", "departamento": "Capital", "lat": -27.4676, "lng": -58.8344, "precipitacion": 100.2, "fecha": "2025-06-15T14:30:00", "acumuladoMes": 55.2, "acumuladoAnio": 320.7 },
-  { "id": 2, "nombre": "Goya Centro", "departamento": "Goya", "lat": -29.1417, "lng": -59.2644, "precipitacion": 5.0, "fecha": "2025-06-15T13:15:00", "acumuladoMes": 33.5, "acumuladoAnio": 250.0 },
-  { "id": 3, "nombre": "Mercedes Oeste", "departamento": "Mercedes", "lat": -29.1833, "lng": -58.0833, "precipitacion": 0.0, "fecha": "2025-06-15T12:00:00", "acumuladoMes": 70.1, "acumuladoAnio": 410.3 },
-  { "id": 10, "nombre": "Aeropuerto Ctes", "departamento": "Capital", "lat": -27.4455, "lng": -58.7612, "precipitacion": 12.8, "fecha": "2025-06-15T15:00:00", "acumuladoMes": 60.0, "acumuladoAnio": 330.5 }
+  { "id": 1, "nombre": "Bella Vista", "departamento": "Bella Vista", "lat": -28.4527, "lng": -58.9866, "precipitacion": 68.0, "fecha": "2025-07-07T19:59:00", "acumuladoMes": null, "acumuladoAnio": 799.3 },
+  { "id": 2, "nombre": "Chavarría", "departamento": "San Roque", "lat": -28.7303, "lng": -58.3349, "precipitacion": 187.0, "fecha": "2025-07-07T20:05:00", "acumuladoMes": null, "acumuladoAnio": 940.5 },
+  { "id": 3, "nombre": "Concepción", "departamento": "Concepción", "lat": -28.4064, "lng": -57.9241, "precipitacion": 180.0, "fecha": "2025-07-07T20:07:00", "acumuladoMes": null, "acumuladoAnio": 945.4 },
+  { "id": 4, "nombre": "Corrientes", "departamento": "Capital", "lat": -27.4470, "lng": -58.7595, "precipitacion": 142.2, "fecha": "2025-07-07T20:12:00", "acumuladoMes": null, "acumuladoAnio": 771.4 },
+  { "id": 5, "nombre": "Curuzú Cuatiá", "departamento": "Curuzú Cuatiá", "lat": -29.7731, "lng": -58.0893, "precipitacion": 67.0, "fecha": "2025-07-07T20:17:00", "acumuladoMes": null, "acumuladoAnio": 961.5 },
+  { "id": 6, "nombre": "Esquina", "departamento": "Esquina", "lat": -30.0663, "lng": -59.5332, "precipitacion": 46.0, "fecha": "2025-07-07T20:19:00", "acumuladoMes": null, "acumuladoAnio": 622.2 },
+  { "id": 7, "nombre": "Goya", "departamento": "Goya", "lat": -29.1600, "lng": -59.2399, "precipitacion": 62.5, "fecha": "2025-07-07T20:22:00", "acumuladoMes": null, "acumuladoAnio": 644.4 },
+  { "id": 8, "nombre": "Ituzaingó", "departamento": "Ituzaingó", "lat": -27.5821, "lng": -56.6706, "precipitacion": 239.0, "fecha": "2025-07-07T20:24:00", "acumuladoMes": null, "acumuladoAnio": 983.8 },
+  { "id": 9, "nombre": "La Cruz", "departamento": "San Martín", "lat": -29.1760, "lng": -56.6727, "precipitacion": 119.8, "fecha": "2025-07-07T20:29:00", "acumuladoMes": null, "acumuladoAnio": 720.4 },
+  { "id": 10, "nombre": "Monte Caseros", "departamento": "Monte Caseros", "lat": -30.2611, "lng": -57.6514, "precipitacion": 62.5, "fecha": "2025-07-07T20:32:00", "acumuladoMes": null, "acumuladoAnio": 733.8 },
+  { "id": 11, "nombre": "Mercedes", "departamento": "Mercedes", "lat": -29.1979, "lng": -58.0718, "precipitacion": 128.3, "fecha": "2025-07-07T20:37:00", "acumuladoMes": null, "acumuladoAnio": 871.5 },
+  { "id": 12, "nombre": "Paso de los Libres", "departamento": "Paso de los Libres", "lat": -29.6945, "lng": -57.0935, "precipitacion": 122.1, "fecha": "2025-07-07T20:38:00", "acumuladoMes": null, "acumuladoAnio": 831.5 },
+  { "id": 13, "nombre": "Carlos Pellegrini", "departamento": "San Martín", "lat": -28.5533, "lng": -57.1676, "precipitacion": 225.0, "fecha": "2025-07-07T20:42:00", "acumuladoMes": null, "acumuladoAnio": 925.5 },
+  { "id": 14, "nombre": "S. Juan Cora", "departamento": "Santo Tomé", "lat": -28.0512, "lng": -56.6479, "precipitacion": 342.0, "fecha": "2025-07-07T20:47:00", "acumuladoMes": null, "acumuladoAnio": 1134.0 },
+  { "id": 15, "nombre": "Saladas", "departamento": "Saladas", "lat": -28.2643, "lng": -58.6166, "precipitacion": 166.6, "fecha": "2025-07-07T20:49:00", "acumuladoMes": null, "acumuladoAnio": 908.3 },
+  { "id": 16, "nombre": "San Miguel", "departamento": "San Miguel", "lat": -28.0242, "lng": -57.5805, "precipitacion": 205.0, "fecha": "2025-07-07T20:51:00", "acumuladoMes": null, "acumuladoAnio": 958.4 },
+  { "id": 17, "nombre": "Santo Tomé", "departamento": "Santo Tomé", "lat": -28.5172, "lng": -56.0551, "precipitacion": 491.0, "fecha": "2025-07-07T20:53:00", "acumuladoMes": null, "acumuladoAnio": 1377.4 },
+  { "id": 18, "nombre": "Sauce", "departamento": "Esquina", "lat": -30.0815, "lng": -58.7792, "precipitacion": 43.0, "fecha": "2025-07-07T20:57:00", "acumuladoMes": null, "acumuladoAnio": 609.0 },
+  { "id": 19, "nombre": "Virasoro", "departamento": "Santo Tomé", "lat": -28.0839, "lng": -56.0207, "precipitacion": 315.2, "fecha": "2025-07-07T21:01:00", "acumuladoMes": null, "acumuladoAnio": 1262.2 },
+  { "id": 20, "nombre": "Yataiti Calle", "departamento": "Lavalle", "lat": -29.0326, "lng": -58.9159, "precipitacion": 66.0, "fecha": "2025-07-07T21:08:00", "acumuladoMes": null, "acumuladoAnio": 998.0 }
 ]
+

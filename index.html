@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -132,6 +132,8 @@
             color: #2c3e50;
             margin-bottom: 1rem;
             font-size: 1.3rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 0.5rem;
         }
 
         .form-group {
@@ -397,50 +399,23 @@
             border: 1px solid #f5c6cb;
         }
         
-        .department-average-summary-control {
-            background: rgba(255, 255, 255, 0.92);
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            max-height: 60vh;
-            overflow-y: auto;
-            width: 380px;
-            font-size: 11px;
+        /* --- INICIO: NUEVOS ESTILOS PARA VISTAS MÓVIL/ESCRITORIO --- */
+        #mobileStationsListView {
+            display: none;
         }
-        .department-average-summary-control h4 {
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #2c3e50;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-            text-align: center;
+        #desktopSummaryView {
+            display: block;
         }
-        .department-average-summary-control table {
-            width: 100%;
-            border-collapse: collapse;
+        #departmentSummaryContent .data-table {
+             margin-top: 0;
         }
-        .department-average-summary-control th, 
-        .department-average-summary-control td {
-            border: 1px solid #ddd;
-            padding: 4px;
-            text-align: left;
-            white-space: nowrap;
+        #departmentSummaryContent .data-table th,
+        #departmentSummaryContent .data-table td {
+             padding: 0.5rem;
+             font-size: 0.9rem;
         }
-        .department-average-summary-control th {
-            background-color: #e9ecef;
-            color: #495057;
-            font-weight: bold;
-        }
-        .department-average-summary-control td:not(:first-child) {
-            text-align: right;
-        }
-        .department-average-summary-control .no-data {
-            text-align: center;
-            color: #666;
-            padding: 10px;
-        }
-
+        /* --- FIN: NUEVOS ESTILOS --- */
+        
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -452,20 +427,15 @@
             .data-table th, .data-table td { padding: 0.5rem; }
             .header h1 { font-size: 1.5rem; }
             .controls { justify-content: center; }
-            .department-average-summary-control {
-                max-height: 35vh; 
-                width: auto; 
-                max-width: 95%;
-                right: 10px; 
-                left: 10px;
-                bottom: 60px; 
-                top: auto;
-                font-size: 10px;
+            
+            /* --- INICIO: CAMBIOS PARA VISTAS MÓVIL/ESCRITORIO --- */
+            #mobileStationsListView {
+                display: block;
             }
-            .department-average-summary-control th, 
-            .department-average-summary-control td {
-                 padding: 3px;
+            #desktopSummaryView {
+                display: none;
             }
+            /* --- FIN: CAMBIOS --- */
         }
     </style>
 </head>
@@ -520,8 +490,24 @@
                         <div><strong>Última actualización:</strong><br><span id="lastUpdate">Cargando...</span></div>
                     </div>
                 </div>
-                <h3>🗺️ Estaciones Meteorológicas</h3>
-                <div class="stations-list" id="stationsList"></div>
+
+                <!-- --- INICIO: NUEVA ESTRUCTURA DE VISTAS --- -->
+                <!-- Contenedor para el Resumen (Vista de Escritorio) -->
+                <div id="desktopSummaryView">
+                    <h3>📋 Resumen por Departamento</h3>
+                    <div id="departmentSummaryContent" class="stations-list">
+                        <!-- El contenido será inyectado por JS -->
+                    </div>
+                </div>
+                
+                <!-- Contenedor para la Lista de Estaciones (Vista Móvil) -->
+                <div id="mobileStationsListView">
+                    <h3>🗺️ Estaciones Meteorológicas</h3>
+                    <div class="stations-list" id="stationsList">
+                        <!-- El contenido será inyectado por JS -->
+                    </div>
+                </div>
+                <!-- --- FIN: NUEVA ESTRUCTURA DE VISTAS --- -->
             </div>
 
             <div id="adminView" style="display: none;">
@@ -573,7 +559,7 @@
             <div style="margin-bottom: 1rem;">
                 <button id="saveTableChangesBtn" class="btn btn-success btn-sm" onclick="saveTableChanges()">💾 Guardar Cambios</button>
                 <button class="btn btn-warning btn-sm" onclick="exportData()">📄 Exportar CSV</button>
-                <button class="btn btn-danger btn-sm" onclick="exportToPDF(this)">📄 Exportar PDF</button>
+                <button class="btn btn-danger btn-sm" onclick="exportToPDF('table', this)">📄 Exportar PDF</button>
             </div>
             <div class="loading" id="tableLoading"><p>Cargando datos...</p></div>
             <div id="tableContainer" style="overflow-x: auto;"> 
@@ -619,7 +605,7 @@
         let map;
         let markers = [];
         let isAdminView = false;
-        let departmentAverageSummaryControl;
+        // let departmentAverageSummaryControl; // ELIMINADO: ya no es un control del mapa
 
         // --- NUEVO: Función para guardar todos los datos en el servidor ---
         async function saveAllDataToServer() {
@@ -691,31 +677,15 @@
                 crossOrigin: 'anonymous'
             }).addTo(map);
             
-            L.Control.DepartmentAverageSummary = L.Control.extend({
-                onAdd: function(map) { this._div = L.DomUtil.create('div', 'info department-average-summary-control'); this.update(); return this._div; },
-                update: function(summaryData) { 
-                    let content = '<h4>Resumen por Departamento</h4>';
-                    if (!summaryData || Object.keys(summaryData).length === 0) { content += '<p class="no-data">No hay datos.</p>'; } 
-                    else {
-                        content += `<table><thead><tr><th>Departamento</th><th>NºEst</th><th>ØPrec.<br>(mm)</th><th>ØAc.Mes<br>(mm)</th><th>ØAc.Año<br>(mm)</th></tr></thead><tbody>`;
-                        const sortedDepartments = Object.keys(summaryData).sort();
-                        for (const deptName of sortedDepartments) {
-                            const data = summaryData[deptName];
-                            content += `<tr><td>${deptName}</td><td>${data.count}</td><td style="color:${getPrecipitationColor(data.avgPrecip)};">${data.avgPrecip.toFixed(1)}</td><td style="color:${getPrecipitationColor(data.avgAcumuladoMes)};">${data.avgAcumuladoMes.toFixed(1)}</td><td style="color:${getPrecipitationColor(data.avgAcumuladoAnio)};">${data.avgAcumuladoAnio.toFixed(1)}</td></tr>`;
-                        }
-                        content += '</tbody></table>';
-                    }
-                    this._div.innerHTML = content;
-                    L.DomEvent.disableScrollPropagation(this._div); L.DomEvent.disableClickPropagation(this._div);
-                }
-            });
-            L.control.departmentAverageSummary = function(opts) { return new L.Control.DepartmentAverageSummary(opts); }
-            departmentAverageSummaryControl = L.control.departmentAverageSummary({ position: 'topright' }).addTo(map);
-
-            loadStations(); fillDepartmentSelectors(); fillStationSelector(); updateStationsList();
+            // ELIMINADO: El control de resumen ya no es un overlay del mapa.
+            
+            loadStations(); 
+            fillDepartmentSelectors(); 
+            fillStationSelector(); 
+            updateStationsList();
             document.getElementById('dateInput').value = formatDatetimeForInput(new Date().toISOString());
             document.getElementById('lastUpdate').textContent = getCurrentTimestamp();
-            updateDepartmentAverageSummaryOnMap();
+            updateDepartmentSummary(); // MODIFICADO: Llama a la nueva función
         }
 
         function getPrecipitationColor(mm) {
@@ -739,7 +709,7 @@
                 marker.bindPopup(`<div style="padding:0.5rem;">${popupText}</div>`);
                 markers.push(marker);
             });
-            updateDepartmentAverageSummaryOnMap();
+            updateDepartmentSummary(); // MODIFICADO: Llama a la nueva función
         }
 
         function fillDepartmentSelectors(){const newStationDept=document.getElementById('newStationDept');newStationDept.innerHTML='<option value="">Seleccione departamento...</option>';departamentos.sort().forEach(dept=>{newStationDept.innerHTML+=`<option value="${dept}">${dept}</option>`})}
@@ -795,7 +765,47 @@
         }
 
         function calculateDepartmentAverages(){const summary={};if(0===estaciones.length)return summary;return estaciones.forEach(estacion=>{const dept=estacion.departamento;summary[dept]||(summary[dept]={count:0,totalPrecip:0,stationsWithPrecip:0,totalAcumuladoMes:0,stationsWithAcumuladoMes:0,totalAcumuladoAnio:0,stationsWithAcumuladoAnio:0}),summary[dept].count++,'number'==typeof estacion.precipitacion&&!isNaN(estacion.precipitacion)&&(summary[dept].totalPrecip+=estacion.precipitacion,summary[dept].stationsWithPrecip++),'number'==typeof estacion.acumuladoMes&&!isNaN(estacion.acumuladoMes)&&(summary[dept].totalAcumuladoMes+=estacion.acumuladoMes,summary[dept].stationsWithAcumuladoMes++),'number'==typeof estacion.acumuladoAnio&&!isNaN(estacion.acumuladoAnio)&&(summary[dept].totalAcumuladoAnio+=estacion.acumuladoAnio,summary[dept].stationsWithAcumuladoAnio++)}),Object.keys(summary).forEach(dept=>{summary[dept].avgPrecip=summary[dept].stationsWithPrecip>0?summary[dept].totalPrecip/summary[dept].stationsWithPrecip:0,summary[dept].avgAcumuladoMes=summary[dept].stationsWithAcumuladoMes>0?summary[dept].totalAcumuladoMes/summary[dept].stationsWithAcumuladoMes:0,summary[dept].avgAcumuladoAnio=summary[dept].stationsWithAcumuladoAnio>0?summary[dept].totalAcumuladoAnio/summary[dept].stationsWithAcumuladoAnio:0}),summary}
-        function updateDepartmentAverageSummaryOnMap(){if(departmentAverageSummaryControl)departmentAverageSummaryControl.update(calculateDepartmentAverages())}
+        
+        // --- MODIFICADO: Esta función ahora actualiza el resumen en el panel lateral ---
+        function updateDepartmentSummary() {
+            const summaryData = calculateDepartmentAverages();
+            const container = document.getElementById('departmentSummaryContent');
+            if (!container) return;
+
+            let content = '';
+            if (!summaryData || Object.keys(summaryData).length === 0) {
+                content = '<p class="no-data" style="padding: 1rem; text-align: center;">No hay datos.</p>';
+            } else {
+                let tableRows = '';
+                const sortedDepartments = Object.keys(summaryData).sort();
+                for (const deptName of sortedDepartments) {
+                    const data = summaryData[deptName];
+                    tableRows += `
+                        <tr>
+                            <td>${deptName}</td>
+                            <td style="text-align: center;">${data.count}</td>
+                            <td style="text-align: right; font-weight: bold; color:${getPrecipitationColor(data.avgPrecip)};">${data.avgPrecip.toFixed(1)}</td>
+                            <td style="text-align: right; font-weight: bold; color:${getPrecipitationColor(data.avgAcumuladoMes)};">${data.avgAcumuladoMes.toFixed(1)}</td>
+                            <td style="text-align: right; font-weight: bold; color:${getPrecipitationColor(data.avgAcumuladoAnio)};">${data.avgAcumuladoAnio.toFixed(1)}</td>
+                        </tr>`;
+                }
+                content = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Departamento</th>
+                                <th>NºEst</th>
+                                <th>ØPrec.(mm)</th>
+                                <th>ØAc.Mes(mm)</th>
+                                <th>ØAc.Año(mm)</th>
+                            </tr>
+                        </thead>
+                        <tbody>${tableRows}</tbody>
+                    </table>`;
+            }
+            container.innerHTML = content;
+        }
+
         function showDataTable(){document.getElementById('dataTableModal').style.display='block',loadDataTable()}
         
         function loadDataTable() {
@@ -924,7 +934,7 @@
                     doc.addImage(mapImgData, 'PNG', 15, 55, pdfWidth, pdfHeight, undefined, 'FAST');
                     doc.save(`reporte_mapa_precipitaciones_${new Date().toISOString().slice(0,10)}.pdf`);
 
-                } else if (exportType === 'table') {
+                } else if (exportType === 'table') { // Asumiendo que el botón llama con 'table'
                     const head = [['ID', 'Estación', 'Depto.', 'Precip. (mm)', 'Fecha', 'Ac. Mes', 'Ac. Año']];
                     const body = estaciones.map(e => [
                         e.id,

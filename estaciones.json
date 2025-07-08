@@ -16,7 +16,7 @@
   { "id": 15, "nombre": "Saladas", "departamento": "Saladas", "lat": -28.2643, "lng": -58.6166, "precipitacion": 166.6, "fecha": "2025-07-07T20:49:00", "acumuladoMes": null, "acumuladoAnio": 908.3 },
   { "id": 16, "nombre": "San Miguel", "departamento": "San Miguel", "lat": -28.0242, "lng": -57.5805, "precipitacion": 205.0, "fecha": "2025-07-07T20:51:00", "acumuladoMes": null, "acumuladoAnio": 958.4 },
   { "id": 17, "nombre": "Santo Tomé", "departamento": "Santo Tomé", "lat": -28.5172, "lng": -56.0551, "precipitacion": 491.0, "fecha": "2025-07-07T20:53:00", "acumuladoMes": null, "acumuladoAnio": 1377.4 },
-  { "id": 18, "nombre": "Sauce", "departamento": "Esquina", "lat": -30.0815, "lng": -58.7792, "precipitacion": 43.0, "fecha": "2025-07-07T20:57:00", "acumuladoMes": null, "acumuladoAnio": 609.0 },
+  { "id": 18, "nombre": "Sauce", "departamento": "Sauce", "lat": -30.0815, "lng": -58.7792, "precipitacion": 43.0, "fecha": "2025-07-07T20:57:00", "acumuladoMes": null, "acumuladoAnio": 609.0 },
   { "id": 19, "nombre": "Virasoro", "departamento": "Santo Tomé", "lat": -28.0839, "lng": -56.0207, "precipitacion": 315.2, "fecha": "2025-07-07T21:01:00", "acumuladoMes": null, "acumuladoAnio": 1262.2 },
   { "id": 20, "nombre": "Yataiti Calle", "departamento": "Lavalle", "lat": -29.0326, "lng": -58.9159, "precipitacion": 66.0, "fecha": "2025-07-07T21:08:00", "acumuladoMes": null, "acumuladoAnio": 998.0 }
 ]
